@@ -1,7 +1,8 @@
 #include <sodium.h>
 #include <stdio.h>
-#define GENERATIONS 10
-int population = 4;
+#include <stdlib.h>
+#include <string.h>
+int population;
 
 int b1 = 100;
 int d1 = 10;
@@ -27,13 +28,14 @@ void step() {
 	printf("Population = %d\n",population);
 	
 }
-int main() {
+int main(int argc, char *argv[]) {
+	population = atoi(argv[2]);
 	if(sodium_init() < 0) {
 		/* panic! the library couldn't be initialized, it is not safe to use */
 		return 1;
 	}
 	int g;
-	for(g = 0; g < GENERATIONS; g++) {
+	for(g = 0; g < atoi(argv[1]); g++) {
 		step();
 	}
 }
