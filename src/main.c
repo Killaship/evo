@@ -8,7 +8,7 @@ int d1 = 10;
 int r1 = 5;
 
 int randnum() {
-	int randnum = randombytes.random() % 100 + 1;
+	int randnum = randombytes_random() % 100 + 1;
 	return randnum;
 }
 void step() {
