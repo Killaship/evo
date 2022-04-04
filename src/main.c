@@ -17,7 +17,7 @@ void step() {
 	if(randnum <= b1) {
 		population++;
 	}
-	for(int i = 1; i < population; i++) {
+	for(int i = 0; i < population; i++) {
 		if(randnum() <= d1) {
 			population--;
 		}
