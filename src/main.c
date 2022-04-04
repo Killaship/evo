@@ -1,7 +1,7 @@
 #include <sodium.h>
 #include <stdio.h>
-
-int population = 2;
+#define GENERATIONS 10
+int population = 4;
 
 int b1 = 100;
 int d1 = 10;
@@ -32,11 +32,9 @@ int main() {
 		/* panic! the library couldn't be initialized, it is not safe to use */
 		return 1;
 	}
-	step();
-	step();
-	step();
-	step();
-	step();
-	
+	int g;
+	for(g = 0; g < GENERATIONS; g++) {
+		step();
+	}
 }
   
