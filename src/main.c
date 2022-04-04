@@ -1,20 +1,30 @@
 #include <sodium.h>
 #include <stdio.h>
 
-int population;
+int population = 2;
 
 int b1 = 100;
 int d1 = 10;
 int r1 = 5;
 
-void step() {
+int randnum() {
 	int randnum = randombytes.random() % 100 + 1;
+	return randnum;
+}
+void step() {
+	
 	if(randnum <= b1) {
 		population++;
 	}
-	if(randnum <= d1) {
-		population--;
+	for(int i = 1; i < population; i++) {
+		if(randnum() <= d1) {
+			population--;
+		}
+		if(randnum() <= r1) {
+			population++;
+		}
 	}
+	printf("Population = %d\n",population);
 	
 }
 int main() {
@@ -23,6 +33,10 @@ int main() {
 		return 1;
 	}
 	step();
-
+	step();
+	step();
+	step();
+	step();
+	
 }
   
