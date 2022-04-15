@@ -31,7 +31,7 @@ void step() {
 	cutoff = cutoff + 0.1;
 	int sum = 0;
 	for(int i = 0; i < populationsize; i++) {
-		if(population[i] > cutoff) {
+		if(population[i] >= cutoff) {
 			sum++;
 		}
 	}
