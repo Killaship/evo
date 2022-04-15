@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #define populationsize 8
-int population[populationsize];
+float population[populationsize];
 float cutoff = 1; // Minimum resistance needed to survive. Increments by 0.5 each generation.
 int m1 = 10;
 int m2 = 10;
