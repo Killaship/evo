@@ -7,22 +7,29 @@
 #define populationsize 8
 int population[populationsize];
 
-int cutoff = 100; // Minimum resistance needed to survive. Increments by 0.5 each generation.
+int cutoff = 1; // Minimum resistance needed to survive. Increments by 0.5 each generation.
 int m1 = 10;
 int m2 = 10;
 int randnum() {
 	int randnum;
-	randnum = randombytes_random() % 10000 + 1;
+	randnum = randombytes_random() % 100 + 1;
 	return randnum;
+}
+
+
+int averagepop(int population[populationsize]) {
+	int sum;
+	for(int i = 0; i < populationsize; i++) {
+		sum = sum + population[i];
+	}
+	int average = sum / populationsize;
+	return average;
 }
 bool firstgen = true;
 void step() {
+	
 	for(int i = 0; i < populationsize; i++) {
-		printf("%d",(population[i] / 100));
-		if(population[i] == 0) {
-			// skip, this creature is dead
-		}
-		else if(population[i] < cutoff) {
+		if(population[i] < cutoff) {
 			population[i] = 0;
 		}
 		else if(randnum() <= m1) {
@@ -31,10 +38,15 @@ void step() {
 		else if(randnum() <= m2) {
 			population[i]++;
 		}
+		else if(population[i] == 0) {
+			// skip, this creature is dead
+		}	
+		printf("%d", population[i]);
 	}
 
+
 	if(firstgen == false) {
-		cutoff = cutoff + 10;
+		cutoff = cutoff + 1;
 	}
 	if(firstgen == true) {
 		firstgen = false;
@@ -47,10 +59,18 @@ void step() {
 			sum++;
 		}
 	}
-
-	printf(" Survived Population = %d Cutoff = %f", sum, ((float) cutoff / 100));
-
-	printf("\n");
+	int popbuffer[populationsize];
+	memcpy(population, popbuffer, sizeof(population));
+	for(int i = 0; i < populationsize; i++) {
+		popbuffer[i] = population[i];
+	}
+	for(int i = 0; i < populationsize; i++) {
+		if(popbuffer[i] != 0) {
+			population[i] = averagepop((int *)popbuffer);
+		}
+	}
+	
+	printf(" Survived Population = %d Cutoff = %d\n", sum, cutoff);
 	char waitchar;
 	scanf("%c", &waitchar);
 }
