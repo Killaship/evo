@@ -2,19 +2,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdint.h>
+#include <stdbool.h>
 #define populationsize 8
-float population[populationsize];
-float cutoff = 1; // Minimum resistance needed to survive. Increments by 0.5 each generation.
+int population[populationsize];
+
+int cutoff = 100; // Minimum resistance needed to survive. Increments by 0.5 each generation.
 int m1 = 10;
 int m2 = 10;
 int randnum() {
 	int randnum;
-	randnum = randombytes_random() % 100 + 1;
+	randnum = randombytes_random() % 10000 + 1;
 	return randnum;
 }
+bool firstgen = true;
 void step() {
 	for(int i = 0; i < populationsize; i++) {
-		printf("%d",population[i]);
+		printf("%d",(population[i] / 100));
 		if(population[i] == 0) {
 			// skip, this creature is dead
 		}
@@ -28,14 +32,25 @@ void step() {
 			population[i]++;
 		}
 	}
-	cutoff = cutoff + 0.1;
+
+	if(firstgen == false) {
+		cutoff = cutoff + 10;
+	}
+	if(firstgen == true) {
+		firstgen = false;
+
+	}
+
 	int sum = 0;
 	for(int i = 0; i < populationsize; i++) {
 		if(population[i] >= cutoff) {
 			sum++;
 		}
 	}
-	printf(" Survived Population = %d Cutoff - %3f\n", sum, cutoff);
+
+	printf(" Survived Population = %d Cutoff = %f", sum, ((float) cutoff / 100));
+
+	printf("\n");
 	char waitchar;
 	scanf("%c", &waitchar);
 }
