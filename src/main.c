@@ -4,10 +4,10 @@
 #include <string.h>
 #include <stdint.h>
 #include <stdbool.h>
-#define populationsize 8
+#define populationsize 16
 int population[populationsize];
 
-int cutoff = 1; // Minimum resistance needed to survive. Increments by 0.5 each generation.
+int cutoff = 1; // Minimum resistance needed to survive. Increments by 1 each generation.
 int m1 = 10;
 int m2 = 10;
 int randnum() {
@@ -17,17 +17,21 @@ int randnum() {
 }
 
 
-int averagepop(int population[populationsize]) {
-	int sum;
+int averagepop() {
+	int sum = 0;
+	int average = 0;
 	for(int i = 0; i < populationsize; i++) {
-		sum = sum + population[i];
+		if(population[i] != 0) {
+			sum = sum + population[i];
+		}
 	}
-	int average = sum / populationsize;
+	average = sum / populationsize;
 	return average;
 }
 bool firstgen = true;
 void step() {
-	
+	//m1 = randnum();
+	//m2 = randnum();
 	for(int i = 0; i < populationsize; i++) {
 		if(population[i] < cutoff) {
 			population[i] = 0;
@@ -41,7 +45,7 @@ void step() {
 		else if(population[i] == 0) {
 			// skip, this creature is dead
 		}	
-		printf("%d", population[i]);
+		printf("%d ", population[i]);
 	}
 
 
@@ -59,20 +63,17 @@ void step() {
 			sum++;
 		}
 	}
-	int popbuffer[populationsize];
-	memcpy(population, popbuffer, sizeof(population));
+	
+//	memcpy(population, popbuffer, sizeof(population));
+	int average = averagepop();
 	for(int i = 0; i < populationsize; i++) {
-		popbuffer[i] = population[i];
-	}
-	for(int i = 0; i < populationsize; i++) {
-		if(popbuffer[i] != 0) {
-			population[i] = averagepop((int *)popbuffer);
+		if(population[i] == 0) {
+			population[i] = average;
 		}
 	}
 	
-	printf(" Survived Population = %d Cutoff = %d\n", sum, cutoff);
-	char waitchar;
-	scanf("%c", &waitchar);
+	printf(" Survived Population = %d Cutoff = %d M1 = %d M2 = %d\n", sum, cutoff, m1, m2);
+
 }
 int main(int argc, char *argv[]) {
 	if(sodium_init() < 0) {
@@ -80,11 +81,13 @@ int main(int argc, char *argv[]) {
 		return 1;
 	}
 	for(int i = 0; i < populationsize; i++) {
-		population[i] = randnum() / 25;
+		population[i] = randnum() / 10;
 	}
 	int g;
 	for(g = 0; g < atoi(argv[1]); g++) {
 		step();
+		char waitchar;
+		scanf("%c", &waitchar);
 	}
 }
 
